@@ -3,17 +3,32 @@ package strage
 import (
 	"bytes"
 	"cloud.google.com/go/storage"
+	"fmt"
 	"golang.org/x/net/context"
 )
 
-func Put(bucket, path string, data []byte) error {
+type Worker struct {
+	bucketName string
+}
+
+func New(bucketName string) Worker {
+
+	return Worker{
+		bucketName: bucketName,
+	}
+}
+
+func (wo Worker) DummyFunc() {
+	fmt.Println("Hello World!")
+}
+func (wo Worker) Put(path string, data []byte) error {
 	ctx := context.Background()
 	client, err := storage.NewClient(ctx)
 	if err != nil {
 		return err
 	}
 
-	w := client.Bucket(bucket).Object(path).NewWriter(ctx)
+	w := client.Bucket(wo.bucketName).Object(path).NewWriter(ctx)
 
 	if n, err := w.Write(data); err != nil {
 		return err
@@ -30,14 +45,14 @@ func Put(bucket, path string, data []byte) error {
 	return nil
 }
 
-func Get(bucket, path string) ([]byte, error) {
+func (wo Worker) Get(path string) ([]byte, error) {
 	ctx := context.Background()
 	client, err := storage.NewClient(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	r, err := client.Bucket(bucket).Object(path).NewReader(ctx)
+	r, err := client.Bucket(wo.bucketName).Object(path).NewReader(ctx)
 	if err != nil {
 		return nil, err
 	}
