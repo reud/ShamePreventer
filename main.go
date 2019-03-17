@@ -14,17 +14,20 @@ func main() {
 	cs := os.Getenv("TWITTER_CONSUMER_SECRET")
 	at := os.Getenv("TWITTER_ACCESS_TOKEN")
 	atk := os.Getenv("TWITTER_ACCESS_TOKEN_SECRET")
-	un := os.Getenv("TWITTER_USERNAME")
 	bn := os.Getenv("BUCKET_NAME")
 	wkr := strage.New(bn)
-	wkr.DummyFunc()
 	if ck == "" || cs == "" || at == "" || atk == "" {
-		panic(errors.New("Something nil value"))
-
+		panic(errors.New("Something had nil value"))
 	}
-	client := twitter.New(ck, cs, at, atk, un)
+	client, err := twitter.New(ck, cs, at, atk)
+	if err != nil {
+		panic(err)
+	}
 	tws, err := client.GetMyTweet()
 	if err != nil {
+		panic(err)
+	}
+	if err := wkr.SaveTweets(tws); err != nil {
 		panic(err)
 	}
 	err = client.DestroyTweets(tws)

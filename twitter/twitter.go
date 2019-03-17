@@ -1,6 +1,7 @@
 package twitter
 
 import (
+	"errors"
 	"fmt"
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/dghubble/oauth1"
@@ -12,8 +13,7 @@ type Twitter struct {
 	username string
 }
 
-func New(ck string, cs string, at string, atk string, username string) Twitter {
-
+func New(ck string, cs string, at string, atk string) (*Twitter, error) {
 	config := oauth1.NewConfig(ck, cs)
 	token := oauth1.NewToken(at, atk)
 	httpClient := config.Client(oauth1.NoContext, token)
@@ -21,11 +21,17 @@ func New(ck string, cs string, at string, atk string, username string) Twitter {
 	// Twitter client
 	client := twitter.NewClient(httpClient)
 	fmt.Println(client.Trends.Available())
-
-	return Twitter{
-		client:   client,
-		username: username,
+	user, _, err := client.Accounts.VerifyCredentials(&twitter.AccountVerifyParams{})
+	if err != nil {
+		return nil, err
 	}
+	if user == nil {
+		return nil, errors.New("there is no user")
+	}
+	return &Twitter{
+		client:   client,
+		username: user.ScreenName,
+	}, nil
 }
 
 func (tw Twitter) GetMyTweet() ([]twitter.Tweet, error) {
