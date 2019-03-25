@@ -1,18 +1,23 @@
-Shame Preventer
+Shame Preventer v1.1
 ====
 
-Tweet feel free, like instagram stories
+Tweet freely, like instagram stories
+
+updated! if you want to use before version, watch (it)[https://github.com/reud/ShamePreventer/tree/v1.0-master]
 
 ## Description
 
-1. Your tweets archiving (at GCP)
-2. Delete your tweets 
+(v1.1 new feature! this steps will apply if tweet after 24 hours)
 
-If you set cron and working every day, It is like Instagram Stories.
+1 It archives your tweets (at GCP)
+
+2 Then, deletes your tweets
+
+If you set cron working every day, It will be like Instagram Stories.
 
 ## VS. 
 
-Instagtam Stories: They seems to be happy, So I feel be a LOSER.
+Instagtam Stories: They seem happy, so I feel like a LOSER.
 
 Twitter+Shame Preventer: **COMFORTABLE**
 
@@ -21,7 +26,7 @@ Twitter+Shame Preventer: **COMFORTABLE**
 see [go.mod](https://github.com/reud/ShamePreventer/blob/master/go.mod)
 ## Usage
 
-Before, You have to get key.json from GCP, and put on project directory.
+Before start using, you have to get key.json from GCP, and put it on project directory.
 
 ```bash
 $ git clone https://github.com/reud/ShamePreventer.git
