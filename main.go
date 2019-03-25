@@ -27,10 +27,14 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if err := wkr.SaveTweets(tws); err != nil {
+	ftws, err := client.Filtering(tws)
+	if err != nil {
 		panic(err)
 	}
-	err = client.DestroyTweets(tws)
+	if err := wkr.SaveTweets(ftws); err != nil {
+		panic(err)
+	}
+	err = client.DestroyTweets(ftws)
 	if err != nil {
 		panic(err)
 	}

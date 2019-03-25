@@ -32,6 +32,9 @@ func (wo Worker) DummyFunc() {
 }
 
 func (wo Worker) SaveTweets(tweets []twitter.Tweet) error {
+	if len(tweets) == 0 {
+		return nil
+	}
 	if err := wo.put(wo.folderName+"/tweets.txt", []byte(getTweetStrS(tweets))); err != nil {
 		return err
 	}
