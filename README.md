@@ -3,7 +3,7 @@ Shame Preventer v1.1
 
 Tweet freely, like instagram stories
 
-updated! if you want to use before version, watch (it)[https://github.com/reud/ShamePreventer/tree/v1.0-master]
+updated! if you want to use before version, watch [it](https://github.com/reud/ShamePreventer/tree/v1.0-master)
 
 ## Description
 
