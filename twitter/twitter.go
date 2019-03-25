@@ -6,12 +6,15 @@ import (
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/dghubble/oauth1"
 	"net/url"
+	"time"
 )
 
 type Twitter struct {
 	client   *twitter.Client
 	username string
 }
+
+const ExistTimeHour int = 24
 
 func New(ck string, cs string, at string, atk string) (*Twitter, error) {
 	config := oauth1.NewConfig(ck, cs)
@@ -46,6 +49,23 @@ func (tw Twitter) GetMyTweet() ([]twitter.Tweet, error) {
 		return nil, err
 	}
 	return tweets, nil
+}
+
+func (tw Twitter) Filtering(ts []twitter.Tweet) ([]twitter.Tweet, error) {
+
+	var results []twitter.Tweet
+
+	for _, t := range ts {
+		tweetedTime, err := time.Parse("Mon Jan 02 15:04:05 -0700 2006", t.CreatedAt)
+		if err != nil {
+			return nil, err
+		}
+		d := time.Since(tweetedTime)
+		if int(d.Hours()) >= ExistTimeHour {
+			results = append(results, t)
+		}
+	}
+	return results, nil
 }
 
 func (tw Twitter) DestroyTweets(ts []twitter.Tweet) error {
