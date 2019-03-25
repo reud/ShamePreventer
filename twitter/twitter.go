@@ -69,6 +69,9 @@ func (tw Twitter) Filtering(ts []twitter.Tweet) ([]twitter.Tweet, error) {
 }
 
 func (tw Twitter) DestroyTweets(ts []twitter.Tweet) error {
+	if len(ts) == 0 {
+		return nil
+	}
 	for _, t := range ts {
 		tw, _, err := tw.client.Statuses.Destroy(t.ID, &twitter.StatusDestroyParams{})
 		fmt.Printf("deleted:\n %+v \n", tw.Text)
