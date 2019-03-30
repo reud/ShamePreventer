@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-const TimeLayout = "20060102"
+const TimeLayout = "2006-01-02-15-04-05"
 
 type Worker struct {
 	bucketName string
